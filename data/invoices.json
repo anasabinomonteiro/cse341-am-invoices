@@ -1,0 +1,38 @@
+[
+  {
+    "invoice": "123456",
+    "date": "2025-01-06",
+    "client": "Chespirito Bolanos",
+    "carrier": "Amazon",
+    "destination": "Mexico",
+    "status": "Delivered",
+    "amount": 1520.75
+  },
+  {
+    "invoice": "456789",
+    "date": "2025-02-10",
+    "client": "Harry Potter",
+    "carrier": "Braspress",
+    "destination": "London",
+    "status": "In transit",
+    "amount": 2624.80
+  },
+  {
+    "invoice": "258369",
+    "date": "2025-03-15",
+    "client": "Doroty Granger",
+    "carrier": "Jamef",
+    "destination": "United States",
+    "status": "Delivered",
+    "amount": 3500.25
+  },
+  {
+    "invoice": "147258",
+    "date": "2025-04-21",
+    "client": "Carmen San Diego",
+    "carrier": "Fedex",
+    "destination": "Argentina",
+    "status": "In transit",
+    "amount": 2085.90
+  }
+]

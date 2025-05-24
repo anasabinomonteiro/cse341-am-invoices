@@ -1,0 +1,39 @@
+ ###All invoices 
+GET http://localhost:3000/api/invoices
+
+
+###View invoice by ID 
+GET http://localhost:3000/api/invoices/68320eeb66ed0c76a537e720
+
+
+###Create a new invoice
+POST http://localhost:3000/api/invoices
+Content-Type: application/json
+
+{
+    "invoice": "111222",
+    "date": "2025-05-24",
+    "client": "Elphaba Thropp",
+    "carrier": "Loggi",
+    "destination": "Canada",
+    "status": "Pending",
+    "amount": 2895.55
+}
+
+###PUT - Update an invoice
+PUT http://localhost:3000/api/invoices/68320eeb66ed0c76a537e721
+Content-Type: application/json
+
+{
+    "invoice": "147258",
+    "date": "2025-04-21",
+    "client": "Carmen San Diego",
+    "carrier": "FedEx",
+    "destination": "Chile",
+    "status": "Pending",
+    "amount": 2090.05
+ }
+
+###Delete an invoice
+DELETE http://localhost:3000/api/invoices/68320eeb66ed0c76a537e721
+
