@@ -22,10 +22,10 @@
     }
   ],
   "schemes": [
-    "https"
+    "httpS"
   ],
   "paths": {
-    "/": {
+    "/api/invoices": {
       "get": {
         "tags": [
           "Invoices"
@@ -91,7 +91,7 @@
         }
       }
     },
-    "/{id}": {
+    "/api/invoices/{id}": {
       "get": {
         "tags": [
           "Invoices"
