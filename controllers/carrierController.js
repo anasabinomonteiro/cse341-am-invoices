@@ -1,9 +1,9 @@
-const Invoice = require('../models/carrier');
+const Carrier = require('../models/carrier');
 
 // Get All Carriers
 exports.getAllCarriers = async (req, res) => {
     try {
-        const carriers = await Invoice.find();
+        const carriers = await Carrier.find();
         res.status(200).json(carriers);
     } catch (error) {
         res.status(500).json({ message: 'Error fetching carriers', error: error });
@@ -13,7 +13,7 @@ exports.getAllCarriers = async (req, res) => {
 // Get Carrier by ID
 exports.getCarrierById = async (req, res) => {
     try {
-        const carrier = await Invoice.findById(req.params.id);
+        const carrier = await Carrier.findById(req.params.id);
         if (!carrier) {
             return res.status(404).json({ message: 'Carrier not found' });
         }
@@ -32,7 +32,7 @@ exports.createCarrier = async (req, res) => {
     }
 
     try {
-        const newCarrier = new Invoice({
+        const newCarrier = new Carrier({
             name,
             contact,
             phone,
@@ -56,7 +56,7 @@ exports.updateCarrier = async (req, res) => {
     }
 
     try {
-        const updatedCarrier = await Invoice.findByIdAndUpdate(
+        const updatedCarrier = await Carrier.findByIdAndUpdate(
             req.params.id,
             { name, contact, phone, email, address },
             { new: true }
@@ -76,7 +76,7 @@ exports.updateCarrier = async (req, res) => {
 // Delete Carrier by ID
 exports.deleteCarrier = async (req, res) => {
     try {
-        const deletedCarrier = await Invoice.findByIdAndDelete(req.params.id);
+        const deletedCarrier = await Carrier.findByIdAndDelete(req.params.id);
         if (!deletedCarrier) {
             return res.status(404).json({ message: 'Carrier not found' });
         }
