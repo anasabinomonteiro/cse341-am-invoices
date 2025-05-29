@@ -1,0 +1,76 @@
+ ###All invoices 
+GET http://localhost:3000/api/invoices
+
+
+###View invoice by ID 
+GET http://localhost:3000/api/invoices/68320eeb66ed0c76a537e720
+
+
+###Create a new invoice
+POST http://localhost:3000/api/invoices
+Content-Type: application/json
+
+{
+    "invoice": "111222",
+    "date": "2025-05-24",
+    "client": "Elphaba Thropp", 
+    "carrier": "Loggi",
+    "destination": "Canada",
+    "status": "Pending",
+    "amount": 2895.55
+}
+
+###PUT - Update an invoice
+PUT http://localhost:3000/api/invoices/68320eeb66ed0c76a537e721
+Content-Type: application/json
+
+{
+    "invoice": "147258",
+    "date": "2025-04-21",
+    "client": "Carmen San Diego",
+    "carrier": "FedEx",
+    "destination": "Chile",
+    "status": "Pending",
+    "amount": 2090.05
+ }
+
+###Delete an invoice
+DELETE http://localhost:3000/api/invoices/68320eeb66ed0c76a537e721
+
+
+
+# ************************* CArriers ************************* #
+# ************************************************************ #
+
+###All carriers
+GET http://localhost:3000/api/carriers
+
+###View carrier by ID
+GET http://localhost:3000/api/carriers/683754a7ffb6a866af2d5f7e
+
+###Create a new carrier
+POST http://localhost:3000/api/carriers
+Content-Type: application/json
+
+  {
+    "name": "Loggi",
+    "contact": "Loggi Logistic Dept",
+    "phone": "800-222-7777",
+    "email": "logistics@loggi.com",
+    "address": "Memphis, TN, USA"
+  }
+
+###PUT - Update a carrier
+PUT http://localhost:3000/api/carriers/68377aad822fc938a19a9ca4
+Content-Type: application/json
+
+  {
+    "name": "Loggi",
+    "contact": "Loggi Comercial Dept",
+    "phone": "700-111-0000",
+    "email": "logistics_client@loggi.com",
+    "address": "Ellensburg, TN, USA"
+  }
+
+###Delete a carrier
+DELETE http://localhost:3000/api/carriers/68377aad822fc938a19a9ca4

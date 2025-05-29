@@ -2,15 +2,30 @@ const swaggerAutogen = require('swagger-autogen')();
 
 const doc = {
     info: {
-        title: 'Invoice API',
+        title: 'Invoices & Carriers API',
         description: 'API for managing invoices and carriers',
     },
     host: process.env.SWAGGER_HOST || 'localhost:3000',
     schemes: [process.env.SWAGGER_SCHEME || 'http'],
+
+    tags: [
+        {
+            name: 'Invoices',
+            description: 'Operations related to invoices',
+        },
+        {
+            name: 'Carriers',
+            description: 'Operations related to carriers',
+        },
+        {
+            name: 'Home',
+            description: 'Welcome message for API root',
+        },
+    ],
 };
 
 const outputFile = './swagger.json';
-const endpointsFiles = ['./server.js'];
+const endpointsFiles = ['./routes/invoiceRoutes.js', './routes/carrierRoutes.js'];
 
 // Generate the Swagger documentation
 swaggerAutogen(outputFile, endpointsFiles, doc)

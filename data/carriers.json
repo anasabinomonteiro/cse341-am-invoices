@@ -1,0 +1,30 @@
+[
+  {
+    "name": "Amazon",
+    "contact": "Logistic Dept",
+    "phone": "206-420-4464",
+    "email": "logistic@amazon.com",
+    "address": "Seattle, WA, USA"
+  },
+  {
+    "name": "Fedex",
+    "contact": "Logistic Dept",
+    "phone": "800-463-3339",
+    "email": "logistics@fedex.com",
+    "address": "Memphis, TN, USA"
+  },
+  {
+    "name": "Braspress",
+    "contact": "Logistic Dept",
+    "phone": "55 11 2188-9000",
+    "email": "delivery@braspresstransportesurgentes.com",
+    "address": "Barueri, SP, Brazil"
+  },
+  {
+    "name": "Jamef",
+    "contact": "Logistic Dept",
+    "phone": "55 11 21216366",
+    "email": "comercial@mcz.jamef.com.br.",
+    "address": "Osasco, SP, Brazil"
+  }
+]

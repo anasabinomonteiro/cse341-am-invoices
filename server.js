@@ -14,6 +14,9 @@ app.use(express.json());
 const invoiceRoutes = require('./routes/invoiceRoutes');
 app.use('/api/invoices', invoiceRoutes);
 
+const carrierRoutes = require('./routes/carrierRoutes');
+app.use('/api/carriers', carrierRoutes);
+
 // Home Page
 app.get('/', (req, res) => {
     // #swagger.tags = ['Home']
@@ -40,7 +43,7 @@ mongoose.connect(process.env.MONGODB_URI)
 // Error handling middleware
 app.use((err, req, res, next) => {
     console.error(err.stack);
-    res.status(500).json({ 
+    res.status(500).json({
         message: 'Internal Server Error',
         error: err.message
     });

@@ -1,30 +1,31 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "Invoice API",
+    "title": "Invoices & Carriers API",
     "description": "API for managing invoices and carriers",
     "version": "1.0.0"
   },
-  "host": "cse341-am-invoices.onrender.com",
+  "host": "localhost:3000",
   "basePath": "/",
+  "tags": [
+    {
+      "name": "Invoices",
+      "description": "Operations related to invoices"
+    },
+    {
+      "name": "Carriers",
+      "description": "Operations related to carriers"
+    },
+    {
+      "name": "Home",
+      "description": "Welcome message for API root"
+    }
+  ],
   "schemes": [
-    "https"
+    "http"
   ],
   "paths": {
     "/": {
-      "get": {
-        "tags": [
-          "Home"
-        ],
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/invoices/": {
       "get": {
         "tags": [
           "Invoices"
@@ -32,11 +33,8 @@
         "summary": "Get All invoices",
         "description": "",
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
+          "default": {
+            "description": ""
           }
         }
       },
@@ -87,19 +85,13 @@
           }
         ],
         "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "500": {
-            "description": "Internal Server Error"
+          "default": {
+            "description": ""
           }
         }
       }
     },
-    "/api/invoices/{id}": {
+    "/{id}": {
       "get": {
         "tags": [
           "Invoices"
@@ -115,14 +107,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "404": {
-            "description": "Not Found"
+          "default": {
+            "description": ""
           }
         }
       },
@@ -180,17 +166,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
+          "default": {
+            "description": ""
           }
         }
       },
@@ -209,14 +186,248 @@
           }
         ],
         "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/carriers": {
+      "get": {
+        "tags": [
+          "Carriers"
+        ],
+        "summary": "Get all carriers",
+        "description": "",
+        "responses": {
           "200": {
-            "description": "OK"
+            "description": "List of carriers",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Carrier Name"
+                  },
+                  "contact": {
+                    "type": "string",
+                    "example": "Carrier Contact Information"
+                  },
+                  "phone": {
+                    "type": "string",
+                    "example": "123-456-7890"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "logistics@carrier.com"
+                  },
+                  "address": {
+                    "type": "string",
+                    "example": "123 Carrier St, City, Country"
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Carriers"
+        ],
+        "summary": "Create a new carrier",
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Carrier Name"
+                },
+                "contact": {
+                  "type": "string",
+                  "example": "Carrier Contact Information"
+                },
+                "phone": {
+                  "type": "string",
+                  "example": "123-456-7890"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "logistics@carrier.com"
+                },
+                "address": {
+                  "type": "string",
+                  "example": "123 Carrier St, City, Country"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Carrier created successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Carrier Name"
+                },
+                "contact": {
+                  "type": "string",
+                  "example": "Carrier Contact Information"
+                },
+                "phone": {
+                  "type": "string",
+                  "example": "123-456-7890"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "logistics@carrier.com"
+                },
+                "address": {
+                  "type": "string",
+                  "example": "123 Carrier St, City, Country"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/carriers/{id}": {
+      "get": {
+        "tags": [
+          "Carriers"
+        ],
+        "summary": "Get carrier by ID",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Carrier ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Carrier data",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Carrier Name"
+                },
+                "contact": {
+                  "type": "string",
+                  "example": "Carrier Contact Information"
+                },
+                "phone": {
+                  "type": "string",
+                  "example": "123-456-7890"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "logistics@carrier.com"
+                },
+                "address": {
+                  "type": "string",
+                  "example": "123 Carrier St, City, Country"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Carriers"
+        ],
+        "summary": "Update a carrier",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Carrier ID"
           },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Updated Name"
+                },
+                "contact": {
+                  "type": "string",
+                  "example": "Updated Contact"
+                },
+                "phone": {
+                  "type": "string",
+                  "example": "987-654-3210"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "updated@carrier.com"
+                },
+                "address": {
+                  "type": "string",
+                  "example": "Updated Address"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Carrier updated successfully"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Carriers"
+        ],
+        "summary": "Delete a carrier",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Carrier ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Carrier deleted successfully"
           }
         }
       }
