@@ -49,12 +49,12 @@ app.use(session({
     secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: false,
     store: MongoStore.create({
         mongoUrl: process.env.MONGODB_URI,
-        ttl: 1000 * 60 * 60 * 24 // 1 day
+        ttl: 60 * 60 // 1 hour
     }),
     cookie: {
         secure: process.env.NODE_ENV === 'production',
         httpOnly: true,
-        maxAge: 1000 * 60 * 60 * 24 // 1 day
+        maxAge: 1000 * 60 * 60  // 1 hour
     } // Use secure cookies in production   
 }));
 
