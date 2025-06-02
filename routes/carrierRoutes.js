@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const carrierController = require('../controllers/carrierController');
 const asyncHandler = require('../utils/asyncHandler');
-const verifyToken = require('../middleware/verifyToken');
 
 // Get All Carriers
 router.get('/',
@@ -78,7 +77,7 @@ router.post('/',
             }
        }
     */
-    verifyToken, asyncHandler(carrierController.createCarrier)
+    asyncHandler(carrierController.createCarrier)
 );
 
 // Update Carrier by ID
@@ -108,7 +107,7 @@ router.put('/:id',
           description: 'Carrier updated successfully'
       }
     */
-    verifyToken, asyncHandler(carrierController.updateCarrier)
+    asyncHandler(carrierController.updateCarrier)
 );
 
 // Delete Carrier by ID
@@ -126,7 +125,7 @@ router.delete('/:id',
            description: 'Carrier deleted successfully'
        }
     */
-    verifyToken, asyncHandler(carrierController.deleteCarrier)
+    asyncHandler(carrierController.deleteCarrier)
 );
 
 module.exports = router;

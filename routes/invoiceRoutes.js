@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const invoiceController = require('../controllers/invoiceController');
 const asyncHandler = require('../utils/asyncHandler');
-const verifyToken = require('../middleware/verifyToken');
 
 router.get('/',
     /* #swagger.summary = 'Get All invoices'
@@ -41,7 +40,7 @@ router.post('/',
             }
         }
      */
-    verifyToken, asyncHandler(invoiceController.createInvoice)
+    asyncHandler(invoiceController.createInvoice)
 );
 
 
@@ -69,7 +68,7 @@ router.put('/:id',
                 }
           }
     */
-    verifyToken, asyncHandler(invoiceController.updateInvoice)
+    asyncHandler(invoiceController.updateInvoice)
 );
 
 
@@ -79,7 +78,7 @@ router.delete('/:id',
        #swagger.tags = ['Invoices']
        #swagger.parammeters['id'] = { description: 'Invoice Id' } 
     */
-    verifyToken, asyncHandler(invoiceController.deleteInvoice)
+    asyncHandler(invoiceController.deleteInvoice)
 );
 
 module.exports = router;
