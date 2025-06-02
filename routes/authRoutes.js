@@ -93,6 +93,7 @@ router.post('/login',
        }
     */
     passport.authenticate('local'), (req, res) => {
+        console.log('User logged in:', req.user.email);
         res.json({ message: 'Logged in successfully', user: req.user });
     });
 
