@@ -8,6 +8,21 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerFile = require('./swagger.json');
 require('./config/passport'); // Passport configuration
 
+app.use((req, res, next) => {
+    console.log(`[REQ START] ${new Date().toISOString()} - ${req.method} ${req.url} - IP: ${req.ip}`);
+    // Capture o momento em que a resposta é enviada
+    res.on('finish', () => {
+        console.log(`[REQ END] ${new Date().toISOString()} - ${req.method} ${req.url} - Status: ${res.statusCode}`);
+        if (res.get('Set-Cookie')) { // Verifica se o cabeçalho Set-Cookie foi adicionado
+            console.log(`[REQ END] Set-Cookie header found: ${res.get('Set-Cookie')}`);
+        } else {
+            console.log(`[REQ END] No Set-Cookie header found.`);
+        }
+    });
+    next();
+});
+// --- FIM DO MIDDLEWARE DE DEPURACAO ---
+
 // Importing MongoDB session store for use on Render (cookies are not persistent)
 const MongoStore = require('connect-mongo');
 
