@@ -92,27 +92,17 @@ router.post('/login',
            description: 'Invalid email or password'
        }
     */
-    (req, res, next) => {
-        passport.authenticate('local', { session: true }, (err, user, info) => { 
-            if (err) { 
-                console.error('Passport Auth Error:', err);
-                return res.status(500).json({ message: 'Authentication error', error: err.message });
-            }
-            if (!user) { 
-                console.log('Passport Auth Failed: No user found or incorrect credentials.');
-                return res.status(401).json({ message: 'Incorrect email or password.' });
-            }
-            req.logIn(user, (err) => { 
-                if (err) { 
-                    console.error('req.logIn error:', err);                
-                    return next(err); 
-                }
-                console.log('--- AuthRoutes Login: User successfully logged in and session established:', user.email);
-                res.json({ message: 'Logged in successfully', user: user });
-            });
-        }) (req, res, next);
-    });
-    
+    passport.authenticate('local', {
+        session: true,
+        failureRedirect: '/login-failure-redirect',
+        failureFlash: false
+    }),
+    (req, res) => {
+        console.log('--- AuthRoutes Login: User successfully logged in (standard Passport handler):', req.user ? req.user.email : 'N/A');
+        res.json({ message: 'Logged in successfully', user: req.user });
+    }
+);
+
 
 router.get('/google',
     /* #swagger.tags = ['Authentication']
