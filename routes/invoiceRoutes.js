@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const invoiceController = require('../controllers/invoiceController');
 const asyncHandler = require('../utils/asyncHandler');
+const verifyToken = require('../middleware/verifyToken');
 
 router.get('/',
     /* #swagger.summary = 'Get All invoices'
@@ -26,6 +27,7 @@ router.post('/',
     /* #swagger.summary = 'Create a new invoice'
        #swagger.path = '/api/invoices'
        #swagger.tags = ['Invoices']
+       #swagger.security = [{ "BearerAuth": [] }],
        #swagger.parameters['body'] = {
             in: 'body',
             required: true,
@@ -40,7 +42,7 @@ router.post('/',
             }
         }
      */
-    asyncHandler(invoiceController.createInvoice)
+    verifyToken, asyncHandler(invoiceController.createInvoice)
 );
 
 
@@ -48,6 +50,7 @@ router.put('/:id',
     /* #swagger.summary = 'Update invoice by Id'
        #swagger.path = '/api/invoices/{id}'
        #swagger.tags = ['Invoices']
+       #swagger.security = [{ "BearerAuth": [] }],
        #swagger.parameters['id'] = {
         in: 'path',
         description: 'Invoice Id',
@@ -68,17 +71,18 @@ router.put('/:id',
                 }
           }
     */
-    asyncHandler(invoiceController.updateInvoice)
+    verifyToken, asyncHandler(invoiceController.updateInvoice)
 );
 
 
 router.delete('/:id',
     /* #swagger.summary = 'Delete invoice by Id'
+       #swagger.security = [{ "BearerAuth": [] }],
        #swagger.path = '/api/invoices/{id}'
        #swagger.tags = ['Invoices']
        #swagger.parammeters['id'] = { description: 'Invoice Id' } 
     */
-    asyncHandler(invoiceController.deleteInvoice)
+    verifyToken, asyncHandler(invoiceController.deleteInvoice)
 );
 
 module.exports = router;

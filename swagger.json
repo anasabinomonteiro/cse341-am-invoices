@@ -9,6 +9,10 @@
   "basePath": "/",
   "tags": [
     {
+      "name": "Authentication",
+      "description": "User authentication and authorization"
+    },
+    {
       "name": "Invoices",
       "description": "Operations related to invoices"
     },
@@ -22,8 +26,16 @@
     }
   ],
   "schemes": [
-    "httpS"
+    "https"
   ],
+  "securityDefinitions": {
+    "BearerAuth": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization",
+      "description": "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\""
+    }
+  },
   "paths": {
     "/api/invoices": {
       "get": {
@@ -46,85 +58,9 @@
         "description": "",
         "parameters": [
           {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "invoice": {
-                  "type": "string",
-                  "example": "123456"
-                },
-                "date": {
-                  "type": "string",
-                  "example": "2023-10-01"
-                },
-                "client": {
-                  "type": "string",
-                  "example": "Client Name"
-                },
-                "carrier": {
-                  "type": "string",
-                  "example": "Carrier Name"
-                },
-                "destination": {
-                  "type": "string",
-                  "example": "Destination Name"
-                },
-                "status": {
-                  "type": "string",
-                  "example": "Pending"
-                },
-                "amount": {
-                  "type": "number",
-                  "example": 1000
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/api/invoices/{id}": {
-      "get": {
-        "tags": [
-          "Invoices"
-        ],
-        "summary": "Get invoice by Id",
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
+            "name": "authorization",
+            "in": "header",
             "type": "string"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Invoices"
-        ],
-        "summary": "Update invoice by Id",
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "Invoice Id"
           },
           {
             "name": "body",
@@ -166,16 +102,26 @@
           }
         ],
         "responses": {
-          "default": {
-            "description": ""
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
-        }
-      },
-      "delete": {
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/invoices/{id}": {
+      "get": {
         "tags": [
           "Invoices"
         ],
-        "summary": "Delete invoice by Id",
+        "summary": "Get invoice by Id",
         "description": "",
         "parameters": [
           {
@@ -190,6 +136,111 @@
             "description": ""
           }
         }
+      },
+      "put": {
+        "tags": [
+          "Invoices"
+        ],
+        "summary": "Update invoice by Id",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Invoice Id"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "invoice": {
+                  "type": "string",
+                  "example": "123456"
+                },
+                "date": {
+                  "type": "string",
+                  "example": "2023-10-01"
+                },
+                "client": {
+                  "type": "string",
+                  "example": "Client Name"
+                },
+                "carrier": {
+                  "type": "string",
+                  "example": "Carrier Name"
+                },
+                "destination": {
+                  "type": "string",
+                  "example": "Destination Name"
+                },
+                "status": {
+                  "type": "string",
+                  "example": "Pending"
+                },
+                "amount": {
+                  "type": "number",
+                  "example": 1000
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Invoices"
+        ],
+        "summary": "Delete invoice by Id",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
       }
     },
     "/api/carriers": {
@@ -243,6 +294,11 @@
         "summary": "Create a new carrier",
         "description": "",
         "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
           {
             "name": "body",
             "in": "body",
@@ -305,8 +361,19 @@
                 "name": "main"
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
       }
     },
     "/api/carriers/{id}": {
@@ -374,6 +441,11 @@
             "description": "Carrier ID"
           },
           {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
             "name": "body",
             "in": "body",
             "required": true,
@@ -407,8 +479,19 @@
         "responses": {
           "200": {
             "description": "Carrier updated successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
       },
       "delete": {
         "tags": [
@@ -423,14 +506,245 @@
             "required": true,
             "type": "string",
             "description": "Carrier ID"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
           }
         ],
         "responses": {
           "200": {
             "description": "Carrier deleted successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/auth": {
+      "get": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Authentication API Welcome message",
+        "description": "This endpoint provides a welcome message for the authentication API.",
+        "responses": {
+          "200": {
+            "description": "Welcome message",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Welcome to the authentication API!"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/register": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Register a new user",
+        "description": "Register a new user with email and password.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "example": "test@google.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "your_strong_password"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "User registered successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "User registered successfully"
+                },
+                "user": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "1234567890abcdef"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "test@google.com"
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Error registering user"
+          },
+          "409": {
+            "description": "Email already exists"
+          }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Login a user",
+        "description": "Authenticates a user with email and password using local strategy.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "example": "test@google.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "your_strong_password"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User logged in successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Logged in successfully"
+                },
+                "user": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "1234567890abcdef"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "test@google.com"
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid email or password"
+          }
+        }
+      }
+    },
+    "/api/auth/google": {
+      "get": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Authenticate with Google OAuth",
+        "description": "Redirects to Google for OAuth authentication.",
+        "responses": {
+          "302": {
+            "description": "Redirects to Google for authentication"
+          }
+        }
+      }
+    },
+    "/api/auth/google/callback": {
+      "get": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Google OAuth callback",
+        "description": "Callback URL for Google OAuth, handles success and failure redirects.",
+        "responses": {
+          "302": {
+            "description": "Redirects to /profile on success or /login on failure"
+          }
+        }
+      }
+    },
+    "/api/auth/logout": {
+      "get": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Logout current user",
+        "description": "Logs out the currently user and destroys the session.",
+        "responses": {
+          "200": {
+            "description": "User logged out successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Logged out successfully"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Error logging out user"
           }
         }
       }
     }
-  }
+  },
+  "security": [
+    {
+      "BearerAuth": []
+    }
+  ]
 }

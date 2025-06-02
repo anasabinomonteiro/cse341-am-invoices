@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const carrierController = require('../controllers/carrierController');
 const asyncHandler = require('../utils/asyncHandler');
+const verifyToken = require('../middleware/verifyToken');
 
 // Get All Carriers
 router.get('/',
@@ -55,6 +56,7 @@ router.post('/',
        #swagger.tags = ['Carriers']
        #swagger.path = '/api/carriers'
        #swagger.summary = 'Create a new carrier'
+       #swagger.security = [{ "BearerAuth": [] }],
        #swagger.parameters['body'] = {
             in: 'body',
             required: true,
@@ -77,7 +79,7 @@ router.post('/',
             }
        }
     */
-    asyncHandler(carrierController.createCarrier)
+    verifyToken, asyncHandler(carrierController.createCarrier)
 );
 
 // Update Carrier by ID
@@ -86,6 +88,7 @@ router.put('/:id',
       #swagger.tags = ['Carriers']
       #swagger.path = '/api/carriers/{id}'
       #swagger.summary = 'Update a carrier'
+      #swagger.security = [{ "BearerAuth": [] }],
       #swagger.parameters['id'] = {
         in: 'path',
         description: 'Carrier ID',
@@ -107,7 +110,7 @@ router.put('/:id',
           description: 'Carrier updated successfully'
       }
     */
-    asyncHandler(carrierController.updateCarrier)
+    verifyToken, asyncHandler(carrierController.updateCarrier)
 );
 
 // Delete Carrier by ID
@@ -115,6 +118,7 @@ router.delete('/:id',
     /* #swagger.tags = ['Carriers']
        #swagger.path = '/api/carriers/{id}'
        #swagger.summary = 'Delete a carrier'
+       #swagger.security = [{ "BearerAuth": [] }],
        #swagger.parameters['id'] = { 
            in: 'path',
            description: 'Carrier ID',
@@ -125,7 +129,7 @@ router.delete('/:id',
            description: 'Carrier deleted successfully'
        }
     */
-    asyncHandler(carrierController.deleteCarrier)
+    verifyToken, asyncHandler(carrierController.deleteCarrier)
 );
 
 module.exports = router;

@@ -2,20 +2,50 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const session = require('express-session');
+const passport = require('passport');
 const swaggerUi = require('swagger-ui-express');
 const swaggerFile = require('./swagger.json');
+require('./config/passport'); // Passport configuration
 
+// Verify variables
+if (!process.env.MONGODB_URI || !process.env.SESSION_SECRET) {
+    console.error('❌ Missing required environment variables. Please check your .env file.');
+    process.exit(1);
+}
+
+// Initialize Express app
 const app = express();
 
-app.use(cors());
+// Middleware
+app.use(cors({
+    origin: process.env.CLIENT_ORIGIN || 'http://localhost:3000',
+    credentials: true,
+}));
 app.use(express.json());
+app.use(session({
+    secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: false,
+    cookie: {
+        secure: process.env.NODE_ENV === 'production',
+        httpOnly: true,
+        maxAge: 1000 * 60 * 60 * 24 // 1 day
+    } // Use secure cookies in production   
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Auth Middleware
+const { isAuthenticated } = require('./middleware/auth');
 
 //Routes
 const invoiceRoutes = require('./routes/invoiceRoutes');
-app.use('/api/invoices', invoiceRoutes);
+app.use('/api/invoices', isAuthenticated, invoiceRoutes);
 
 const carrierRoutes = require('./routes/carrierRoutes');
-app.use('/api/carriers', carrierRoutes);
+app.use('/api/carriers', isAuthenticated, carrierRoutes);
+
+const authRoutes = require('./routes/authRoutes');
+app.use('/api/auth', authRoutes);
 
 // Home Page
 app.get('/', (req, res) => {
@@ -32,8 +62,8 @@ mongoose.connect(process.env.MONGODB_URI)
     .then(() => {
         console.log('✅ Connected to MongoDB');
         app.listen(process.env.PORT, () => {
-            console.log(`🚀 Server is running on http://localhost:${process.env.PORT}`);
-            console.log(`📚 Swagger UI at http://localhost:${process.env.PORT}/api-docs`);
+            console.log(`🚀 Server is running on port${process.env.PORT}`);
+            console.log(`📚 Swagger UI at /api-docs`);
         });
     })
     .catch(err => {
