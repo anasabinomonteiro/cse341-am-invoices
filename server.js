@@ -8,6 +8,18 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerFile = require('./swagger.json');
 require('./config/passport'); // Passport configuration
 
+// Importing MongoDB session store for use on Render (cookies are not persistent)
+const MongoStore = require('connect-mongo');
+
+// Verify variables
+if (!process.env.MONGODB_URI || !process.env.SESSION_SECRET || !process.env.NODE_ENV) {
+    console.error('❌ Missing required environment variables. Please check your .env file.');
+    process.exit(1);
+}
+
+// Initialize Express app
+const app = express();
+
 app.use((req, res, next) => {
     console.log(`[REQ START] ${new Date().toISOString()} - ${req.method} ${req.url} - IP: ${req.ip}`);
     // Capture o momento em que a resposta é enviada
@@ -22,18 +34,6 @@ app.use((req, res, next) => {
     next();
 });
 // --- FIM DO MIDDLEWARE DE DEPURACAO ---
-
-// Importing MongoDB session store for use on Render (cookies are not persistent)
-const MongoStore = require('connect-mongo');
-
-// Verify variables
-if (!process.env.MONGODB_URI || !process.env.SESSION_SECRET || !process.env.NODE_ENV) {
-    console.error('❌ Missing required environment variables. Please check your .env file.');
-    process.exit(1);
-}
-
-// Initialize Express app
-const app = express();
 
 // Middleware
 app.use(cors({
