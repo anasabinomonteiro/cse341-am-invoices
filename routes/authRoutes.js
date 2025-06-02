@@ -92,10 +92,25 @@ router.post('/login',
            description: 'Invalid email or password'
        }
     */
-    passport.authenticate('local'), (req, res) => {
-        console.log('User logged in:', req.user.email);
-        res.json({ message: 'Logged in successfully', user: req.user });
-    });
+    passport.authenticate('local', { session: true }, async (err, user, info) => {
+        if (err) {
+            console.error('Passport Auth Error:', err);
+            return res.status(500).json({ message: 'Authentication error', error: err.message });
+        }
+        if (!user) {
+            console.log('Passport Auth Failed: No user found or incorrect credentials.');
+            return res.status(401).json({ message: 'Incorrect email or password.' });
+        }
+        await req.logIn(user, (err) => {
+            if (err) {
+                console.error('req.logIn error:', err);
+                return res.status(500).json({ message: 'Failed to log in user', error: err.message });
+            }
+            console.log('--- AuthRoutes Login: User successfully logged in and session established:', user.email);
+            res.json({ message: 'Logged in successfully', user: user });
+        });
+    })
+);
 
 
 router.get('/google',
