@@ -9,7 +9,7 @@ const swaggerFile = require('./swagger.json');
 require('./config/passport'); // Passport configuration
 
 // Importing MongoDB session store for use on Render (cookies are not persistent)
-// const MongoStore = require('connect-mongo');
+const MongoStore = require('connect-mongo');
 
 // Verify variables
 if (!process.env.MONGODB_URI || !process.env.SESSION_SECRET || !process.env.NODE_ENV) {
@@ -20,12 +20,16 @@ if (!process.env.MONGODB_URI || !process.env.SESSION_SECRET || !process.env.NODE
 // Initialize Express app
 const app = express();
 
+// Trust first proxy for secure cookies in production
+app.set('trust proxy', 1);
+
+// --- MIDDLEWARE DEBUG ---
 app.use((req, res, next) => {
     console.log(`[REQ START] ${new Date().toISOString()} - ${req.method} ${req.url} - IP: ${req.ip}`);
-    // Capture o momento em que a resposta é enviada
+    console.log(`[DEBUG] Request Protocol: ${req.protocol}, Secure: ${req.secure}`);
     res.on('finish', () => {
         console.log(`[REQ END] ${new Date().toISOString()} - ${req.method} ${req.url} - Status: ${res.statusCode}`);
-        if (res.get('Set-Cookie')) { // Verifica se o cabeçalho Set-Cookie foi adicionado
+        if (res.get('Set-Cookie')) { // Verify the presence of Set-Cookie header
             console.log(`[REQ END] Set-Cookie header found: ${res.get('Set-Cookie')}`);
         } else {
             console.log(`[REQ END] No Set-Cookie header found.`);
@@ -33,7 +37,7 @@ app.use((req, res, next) => {
     });
     next();
 });
-// --- FIM DO MIDDLEWARE DE DEPURACAO ---
+// --- END MIDDLEWARE DEBUG ---
 
 // Middleware
 app.use(cors({
@@ -43,10 +47,10 @@ app.use(cors({
 app.use(express.json());
 app.use(session({
     secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: false,
-    // store: MongoStore.create({
-    //     mongoUrl: process.env.MONGODB_URI,
-    //     ttl: 1000 * 60 * 60 * 24 // 1 day
-    // }),
+    store: MongoStore.create({
+        mongoUrl: process.env.MONGODB_URI,
+        ttl: 1000 * 60 * 60 * 24 // 1 day
+    }),
     cookie: {
         secure: process.env.NODE_ENV === 'production',
         httpOnly: true,
