@@ -26,22 +26,7 @@ const doc = {
             description: 'Welcome message for API root',
         },
     ],
-    // Security Definitions
-    securityDefinitions: {
-        BearerAuth: {
-            type: 'apiKey',
-            in: 'header',
-            name: 'Authorization',
-            description: 'JWT Authorization header using the Bearer scheme. Example: "Authorization: Bearer {token}"',
-        }
-    },
-    security: [
-        {
-            BearerAuth: []
-        }
-    ],
 };
-
 const outputFile = './swagger.json';
 const endpointsFiles = ['./routes/invoiceRoutes.js', './routes/carrierRoutes.js', './routes/authRoutes.js'];
 

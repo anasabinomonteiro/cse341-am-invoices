@@ -27,7 +27,6 @@ router.post('/',
     /* #swagger.summary = 'Create a new invoice'
        #swagger.path = '/api/invoices'
        #swagger.tags = ['Invoices']
-       #swagger.security = [{ "BearerAuth": [] }],
        #swagger.parameters['body'] = {
             in: 'body',
             required: true,
@@ -50,7 +49,6 @@ router.put('/:id',
     /* #swagger.summary = 'Update invoice by Id'
        #swagger.path = '/api/invoices/{id}'
        #swagger.tags = ['Invoices']
-       #swagger.security = [{ "BearerAuth": [] }],
        #swagger.parameters['id'] = {
         in: 'path',
         description: 'Invoice Id',
@@ -77,7 +75,6 @@ router.put('/:id',
 
 router.delete('/:id',
     /* #swagger.summary = 'Delete invoice by Id'
-       #swagger.security = [{ "BearerAuth": [] }],
        #swagger.path = '/api/invoices/{id}'
        #swagger.tags = ['Invoices']
        #swagger.parammeters['id'] = { description: 'Invoice Id' } 

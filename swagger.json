@@ -28,14 +28,6 @@
   "schemes": [
     "https"
   ],
-  "securityDefinitions": {
-    "BearerAuth": {
-      "type": "apiKey",
-      "in": "header",
-      "name": "Authorization",
-      "description": "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\""
-    }
-  },
   "paths": {
     "/api/invoices": {
       "get": {
@@ -108,12 +100,7 @@
           "403": {
             "description": "Forbidden"
           }
-        },
-        "security": [
-          {
-            "BearerAuth": []
-          }
-        ]
+        }
       }
     },
     "/api/invoices/{id}": {
@@ -202,12 +189,7 @@
           "403": {
             "description": "Forbidden"
           }
-        },
-        "security": [
-          {
-            "BearerAuth": []
-          }
-        ]
+        }
       },
       "delete": {
         "tags": [
@@ -235,12 +217,7 @@
           "403": {
             "description": "Forbidden"
           }
-        },
-        "security": [
-          {
-            "BearerAuth": []
-          }
-        ]
+        }
       }
     },
     "/api/carriers": {
@@ -368,12 +345,7 @@
           "403": {
             "description": "Forbidden"
           }
-        },
-        "security": [
-          {
-            "BearerAuth": []
-          }
-        ]
+        }
       }
     },
     "/api/carriers/{id}": {
@@ -486,12 +458,7 @@
           "403": {
             "description": "Forbidden"
           }
-        },
-        "security": [
-          {
-            "BearerAuth": []
-          }
-        ]
+        }
       },
       "delete": {
         "tags": [
@@ -523,12 +490,7 @@
           "403": {
             "description": "Forbidden"
           }
-        },
-        "security": [
-          {
-            "BearerAuth": []
-          }
-        ]
+        }
       }
     },
     "/api/auth": {
@@ -741,10 +703,5 @@
         }
       }
     }
-  },
-  "security": [
-    {
-      "BearerAuth": []
-    }
-  ]
+  }
 }

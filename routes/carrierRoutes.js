@@ -56,7 +56,6 @@ router.post('/',
        #swagger.tags = ['Carriers']
        #swagger.path = '/api/carriers'
        #swagger.summary = 'Create a new carrier'
-       #swagger.security = [{ "BearerAuth": [] }],
        #swagger.parameters['body'] = {
             in: 'body',
             required: true,
@@ -88,7 +87,6 @@ router.put('/:id',
       #swagger.tags = ['Carriers']
       #swagger.path = '/api/carriers/{id}'
       #swagger.summary = 'Update a carrier'
-      #swagger.security = [{ "BearerAuth": [] }],
       #swagger.parameters['id'] = {
         in: 'path',
         description: 'Carrier ID',
@@ -118,7 +116,6 @@ router.delete('/:id',
     /* #swagger.tags = ['Carriers']
        #swagger.path = '/api/carriers/{id}'
        #swagger.summary = 'Delete a carrier'
-       #swagger.security = [{ "BearerAuth": [] }],
        #swagger.parameters['id'] = { 
            in: 'path',
            description: 'Carrier ID',
